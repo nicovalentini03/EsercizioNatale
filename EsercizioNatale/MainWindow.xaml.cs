@@ -31,7 +31,7 @@ namespace EsercizioNatale
             double b = double.Parse(Txt2.Text);
             if (CmbOperazioni.SelectedIndex == 0)
             {
-                double somma = a + b;
+                double somma = a + b ;
                 Risultato.Text = $"{somma}";
             }
             if (CmbOperazioni.SelectedIndex == 1)
