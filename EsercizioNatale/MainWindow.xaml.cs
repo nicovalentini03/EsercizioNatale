@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace EsercizioNatale
 {
@@ -24,31 +25,68 @@ namespace EsercizioNatale
         {
             InitializeComponent();
         }
+        private const string file_name = "txtfile";
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double a = double.Parse(Txt1.Text);
-            double b = double.Parse(Txt2.Text);
-            if (CmbOperazioni.SelectedIndex == 0)
+            try
             {
-                double somma = a + b ;
-                Risultato.Text = $"{somma}";
+                double a = double.Parse(Txt1.Text);
+                double b = double.Parse(Txt2.Text);
+                string op = "";
+                double ris = 0;
+               
+
+                if (CmbOperazioni.SelectedIndex == 0)
+                {
+                    op = "somma";
+                    double somma = a + b;
+                    ris = somma;
+                    Risultato.Text = $"{somma}";
+                }
+                if (CmbOperazioni.SelectedIndex == 1)
+                {
+                    op = "sottrazione";
+                    double sottrazione = a - b;
+                    ris = sottrazione;
+                    Risultato.Text = $"{sottrazione}";
+                }
+                if (CmbOperazioni.SelectedIndex == 2)
+                {
+                    op = "moltiplicazione";
+                    double moltiplicazione = a * b;
+                    ris = moltiplicazione;
+                    Risultato.Text = $"{moltiplicazione}";
+                }
+                if (CmbOperazioni.SelectedIndex == 3)
+                {
+                    op = "divisione";
+                    double divisione = a / b;
+                   
+                    if (b == 0)
+                    {
+                        MessageBox.Show("impossibile dividere un numero per 0", "errore", MessageBoxButton.OK, MessageBoxImage.Error);
+                        Risultato.Text = "errore";
+                    }
+                    else
+                    {
+                        ris = divisione;
+                        Risultato.Text = $"{divisione}";
+                    }
+
+                }
+                using (StreamWriter t = new StreamWriter(file_name, true))
+                {
+                    t.WriteLine($"{a} {b} {op} {ris}");
+                }
+
             }
-            if (CmbOperazioni.SelectedIndex == 1)
+            catch (FormatException)
             {
-                double sottrazione = a - b;
-                Risultato.Text = $"{sottrazione}";
+                MessageBox.Show("inserire solo numeri", "errore", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            if (CmbOperazioni.SelectedIndex == 2)
-            {
-                double moltiplicazione = a * b;
-                Risultato.Text = $"{moltiplicazione}";
-            }
-            if (CmbOperazioni.SelectedIndex == 3)
-            {
-                double divisione = a / b;
-                Risultato.Text = $"{divisione}";
-            }
+
+           
 
         }
     }
